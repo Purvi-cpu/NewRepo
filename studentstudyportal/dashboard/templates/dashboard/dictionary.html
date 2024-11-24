@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dictionary</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        form { margin-bottom: 20px; }
+        input { padding: 5px; width: 200px; }
+        button { padding: 5px 10px; }
+        audio { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Student Dictionary</h1>
+    
+    <!-- HTML Form to Get User Input -->
+    <form method="POST">
+        {% csrf_token %}
+        <label for="input">Enter a word:</label>
+        <input type="text" id="input" name="input" placeholder="Search..." required>
+        <button type="submit">Submit</button>
+    </form>
+    
+    <!-- Display Results -->
+    {% if phonetics or definition or example or audio or synonyms %}
+        <h2>Results:</h2>
+        
+        {% if phonetics %}
+            <p><strong>Phonetics:</strong> {{ phonetics }}</p>
+        {% endif %}
+        
+        {% if audio %}
+            <p><strong>Audio:</strong></p>
+            <audio controls>
+                <source src="{{ audio }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        {% endif %}
+        
+        {% if definition %}
+            <p><strong>Definition:</strong> {{ definition }}</p>
+        {% endif %}
+        
+        {% if example %}
+            <p><strong>Example:</strong> {{ example }}</p>
+        {% endif %}
+        
+        {% if synonyms %}
+            <p><strong>Synonyms:</strong> {{ synonyms|join:", " }}</p>
+        {% endif %}
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+</body>
+</html>
